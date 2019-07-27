@@ -8,6 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint"
   },
+  "engines": {
+    "node": "10.16.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Morgot96/telegram-bot.git"
