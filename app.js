@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const scraping = require('./src/scraping');
-const dbConnection = require('./src/db/connection');
-const api = require('./src/api/index');
+const scraping = require('./server/src/scraping');
+const dbConnection = require('./server/src/db/connection');
+const api = require('./server/src/api/index');
 
 
 const app = express();
