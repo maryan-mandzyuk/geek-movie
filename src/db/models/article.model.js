@@ -80,7 +80,7 @@ module.exports = {
 			}
 		}
 		ArticleModel.find(query).sort({
-			createDate: -1
+			createDate: 1
 		}).limit(25).exec((err, data) => {
 			if (!err) {
 				callback(data);
