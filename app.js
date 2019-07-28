@@ -13,8 +13,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 dbConnection.connectionDb();
-
-app.listen(process.env.port, () => console.log(`Server started on port  ${process.env.port} `));
+app.listen(process.env.PORT, () => console.log(`Server started on port  ${process.env.PORT} `));
 
 api.start(app);
 
