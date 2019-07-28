@@ -4,7 +4,7 @@ module.exports = {
 	connectionDb: () => {
 		mongoose.set('useCreateIndex', true);
 
-		mongoose.connect(process.env.DB_Connect, { useNewUrlParser: true });
+		mongoose.connect('mongodb+srv://admin-maryan:Rp079vlmarian@film-bot-jzuzp.gcp.mongodb.net/film-bot', { useNewUrlParser: true });
 		const db = mongoose.connection;
 		db.on('error', console.error.bind(console, 'Connection error: '));
 		db.once('open', () => {
