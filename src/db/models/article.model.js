@@ -81,7 +81,7 @@ module.exports = {
 		}
 		ArticleModel.find(query).sort({
 			createDate: -1
-		}).limit(req.query.limit).exec((err, data) => {
+		}).limit(parseInt(req.query.limit, 10)).exec((err, data) => {
 			if (!err) {
 				callback(data);
 			} else {
