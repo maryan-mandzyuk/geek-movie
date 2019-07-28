@@ -3,7 +3,7 @@ const model = require('../../db/models/article.model');
 module.exports = {
 	// -------------GET-------------
 	getArticles: (req, res) => {
-		model.readArticles(req, req.query.limit, articles => res.json(articles));
+		model.readArticles(req, articles => res.json(articles));
 	},
 
 	getArticleById: (req, res) => {
