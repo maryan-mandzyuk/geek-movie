@@ -1,11 +1,10 @@
 const mongoose = require('mongoose');
-const config = require('../../../config');
 
 module.exports = {
 	connectionDb: () => {
 		mongoose.set('useCreateIndex', true);
 
-		mongoose.connect(config.dbConnect, {
+		mongoose.connect(process.env.DB_Connect, {
 			useNewUrlParser: true,
 			useFindAndModify: false
 		});

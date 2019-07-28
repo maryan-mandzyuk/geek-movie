@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const scraping = require('./server/src/scraping');
-const dbConnection = require('./server/src/db/connection');
-const api = require('./server/src/api/index');
+const scraping = require('./src/scraping');
+const dbConnection = require('./src/db/connection');
+const api = require('./src/api/index');
+require('dotenv').config();
 
 
 const app = express();
@@ -13,7 +14,7 @@ app.use(bodyParser.json());
 
 dbConnection.connectionDb();
 
-app.listen(3000, () => console.log('Server started on port 3000'));
+app.listen(process.env.port, () => console.log(`Server started on port  ${process.env.port} `));
 
 api.start(app);
 
