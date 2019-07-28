@@ -1,1 +1,1 @@
-# A web app that scraps films and serials news sites and provides API for my telegram bot.
+# A web parser that searches for films and serials news and provides API for my telegram bot.
