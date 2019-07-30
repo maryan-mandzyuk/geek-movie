@@ -17,12 +17,7 @@ app.listen(process.env.PORT, () => console.log(`Server started on port  ${proces
 
 api.start(app);
 
-let sites;
-const sitesPromise = scraping.getSites();
-sitesPromise.then((res) => {
-	sites = res;
-});
-
-setInterval(() => {
+setInterval(async () => {
+	const sites = await scraping.getSites();
 	scraping.scrapingPage(sites);
 }, 1800000); // 1800000 ms = 30 min || 300000 ms = 5 min   10000
