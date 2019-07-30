@@ -1,10 +1,11 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable func-names */
 const axios = require('axios');
 const cheerio = require('cheerio');
 const Article = require('./classes/Article');
-const articelModel = require('../src/db/models/article.model');
-const lastSavedArticleModel = require('../src/db/models/lastSavedArticle.model');
-const siteModel = require('../src/db/models/site.model');
+const articelModel = require('./db/models/article.model');
+const lastSavedArticleModel = require('./db/models/lastSavedArticle.model');
+const siteModel = require('./db/models/site.model');
 
 const getBody = async (url) => {
 	let output;
@@ -97,38 +98,42 @@ const getArticles = async (url, selector, siteName) => {
 	return articles;
 };
 
+const newArticles = async (site, lastSavedArticle) => {
+	let	articels = await getArticles(site.url, site.selector, site.name);
+	let i = 0;
+	for (const article of articels) {
+		if (article.url === lastSavedArticle.article.url) {
+			break;
+		}
+		i += 1;
+	}
+	articels = articels.slice(0, i);
+	return articels;
+};
+
+const saveArticles = (articels, site) => {
+	if (articels && articels.length) {
+		articelModel.createAllArticle(articels).then(
+			console.log(`Saved ${articels.length} new articles | Site: ${site.name} | ${new Date()}`)
+		);
+		lastSavedArticleModel.updateLastSavedArticle(site.name, articels[0]);
+	} else {
+		console.log(`Do not Save new articles | Site: ${site.name} | ${new Date()}`);
+	}
+};
+
+const getSites = async () => {
+	const sitesToScrap = await siteModel.readSites();
+	return sitesToScrap;
+};
+
 module.exports = {
-	scrapingPage: async (sitesToScrap) => {
-		sitesToScrap.forEach(async (site) => {
+	scrapingPage: async () => {
+		const sites = await getSites();
+		sites.forEach(async (site) => {
 			const lastSavedArticle = await lastSavedArticleModel.readLastSavedArticleBySite(site.name);
-			let articels;
-			if (site.url) {
-				articels = await getArticles(site.url, site.selector, site.name);
-			}
-			let i = 0;
-			// eslint-disable-next-line no-restricted-syntax
-			for (const article of articels) {
-				if (article.url === lastSavedArticle.article.url) {
-					break;
-				}
-				i += 1;
-			}
-			articels = articels.slice(0, i);
-
-
-			if (articels && articels.length) {
-				articelModel.createAllArticle(articels).then(
-					console.log(`Saved ${articels.length} new articles | Site: ${site.name} | ${new Date()}`)
-				);
-				lastSavedArticleModel.updateLastSavedArticle(site.name, articels[0]);
-			} else {
-				console.log(`Do not Save new articles | Site: ${site.name} | ${new Date()}`);
-			}
+			const articels = await newArticles(site, lastSavedArticle);
+			saveArticles(articels, site);
 		});
 	},
-
-	getSites: async () => {
-		const sitesToScrap = await siteModel.readSites();
-		return sitesToScrap;
-	}
 };

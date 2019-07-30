@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const scraping = require('./src/scraping');
+const scraping = require('./src/scraper');
 const dbConnection = require('./src/db/connection');
 const api = require('./src/api/index');
 require('dotenv').config();
@@ -18,6 +18,5 @@ app.listen(process.env.PORT, () => console.log(`Server started on port  ${proces
 api.start(app);
 
 setInterval(async () => {
-	const sites = await scraping.getSites();
-	scraping.scrapingPage(sites);
-}, 1800000); // 1800000 ms = 30 min || 300000 ms = 5 min   10000
+	scraping.scrapingPage();
+}, 10000); // 1800000 ms = 30 min || 300000 ms = 5 min   10000
